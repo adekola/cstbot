@@ -10,8 +10,12 @@
             "cwd": "${workspaceRoot}",
             "env": {
                 "NODE_ENV": "development",
-                "QnAKnowledgebaseId": "",
-                "QnASubscriptionKey": ""
+                "QnAKnowledgebaseId": "0a7c3fa1-71d9-4398-9297-c257669c6308",
+                "QnASubscriptionKey": "d359d3a095384b0a94c14425b487f741",
+                "BotOpenIdMetadata": "",
+                "BotStateEndpoint": "",
+                "MicrosoftAppPassword": "YjhFfmNWH27h2FfaMpaZFdB" ,
+                "MicrosoftAppId": "b771004c-294a-4499-a3a3-4d0b61f6b5cc"
             }
         }
     ]
