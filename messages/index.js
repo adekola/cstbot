@@ -22,7 +22,8 @@ var recognizer = new builder_cognitiveservices.QnAMakerRecognizer({
 
 var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
     recognizers: [recognizer],
-                defaultMessage: `I'm afraid, I don't understand your request`,
+                defaultMessage: `I'm afraid, I don't understand your request. But, 
+                you can drop a line at cloud-service-team@eon.com`,
                 qnaThreshold: 0.3}
 );
 
