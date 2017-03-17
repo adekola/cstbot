@@ -2,7 +2,7 @@
 
 "use strict";
 var builder = require("botbuilder");
-var botbuilder_azure = require("botbuilder-azure");
+//var botbuilder_azure = require("botbuilder-azure");
 var builder_cognitiveservices = require("botbuilder-cognitiveservices");
 
 var useEmulator = (process.env.NODE_ENV == 'development');
@@ -12,14 +12,19 @@ const luisModelUrl = `https://${luisUrl}/${process.env.LUIS_APP_ID}?subscription
 //const luisModelUrl = `https://${luisUrl}/${process.env.LUIS_APP_ID}?subscription-key=${process.env.LUIS_API_KEY}`;
 
 
-var connector = useEmulator ? new builder.ChatConnector({
+// var connector = useEmulator ? new builder.ChatConnector({
+//   appId: process.env.MICROSOFT_APP_ID,
+//   appPassword: process.env.MICROSOFT_APP_PASSWORD,
+// }) : new botbuilder_azure.BotServiceConnector({
+//     appId: process.env['MICROSOFT_APP_ID'],
+//     appPassword: process.env['MICROSOFT_APP_PASSWORD'],
+//     stateEndpoint: process.env['BotStateEndpoint'],
+//     openIdMetadata: process.env['BotOpenIdMetadata']
+// });
+
+var connector = new builder.ChatConnector({
   appId: process.env.MICROSOFT_APP_ID,
   appPassword: process.env.MICROSOFT_APP_PASSWORD,
-}) : new botbuilder_azure.BotServiceConnector({
-    appId: process.env['MICROSOFT_APP_ID'],
-    appPassword: process.env['MICROSOFT_APP_PASSWORD'],
-    stateEndpoint: process.env['BotStateEndpoint'],
-    openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
 var bot = new builder.UniversalBot(connector);
@@ -53,9 +58,17 @@ intents.matches('Hello', [
     // Do nothing
 ])
 // When LUIS.ai couldn't match a better intent, default to the QnADialog
+
+//more importantly, the QnADialog needs to terminate and return to the parent dialog immediately
 .matches('None', (session) => {
-  session.beginDialog(basicQnAMakerDialog);
+  session.beginDialog('qnaDialog').endDialog();
+  //session.cancelDialog('qnaDialog');
+  //session.endDialog('qnaDialog');
 })
+
+//register the QnADialog
+bot.dialog('qnaDialog', basicQnAMakerDialog);
+
 
 if (useEmulator) {
     var restify = require('restify');
